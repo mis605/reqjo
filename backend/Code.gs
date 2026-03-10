@@ -48,14 +48,17 @@ function doPost(e) {
     if(!sheetData) {
        // Auto-create if not exists
        sheetData = ss.insertSheet(SHEET_DATA);
-       sheetData.appendRow(["Timestamp", "Email Address", "Klien", "Status", "Cabang", "Posisi", "Jumlah Kebutuhan", "Deskripsi Pekerjaan", "Kompetensi", "Link Dokumen Permintaan User", "Link Lampiran Remunerasi", "OSM"]);
+       sheetData.appendRow(["Timestamp", "Email Address", "Nomor Request", "Tanggal Request User", "Klien", "Status", "Cabang", "Posisi", "Jumlah Kebutuhan", "Deskripsi Pekerjaan", "Kompetensi", "Link Dokumen Permintaan User", "Link Lampiran Remunerasi", "OSM"]);
     }
     
     const timestamp = new Date();
+    const nomorRequest = "REQ-" + Utilities.formatDate(timestamp, "GMT+7", "yyyyMMdd-HHmmss");
     
     const rowData = [
       timestamp,
       email,
+      nomorRequest,
+      formData.tanggalRequest || "",
       formData.klien || "",
       formData.status || "",
       formData.cabang || "",
@@ -71,7 +74,7 @@ function doPost(e) {
     sheetData.appendRow(rowData);
     
     // 4. Send Email Summary
-    sendSummaryEmail(email, formData, pdfUrl, excelUrl);
+    sendSummaryEmail(email, nomorRequest, formData, pdfUrl, excelUrl);
     
     return makeResponse({ status: "success", message: "Data berhasil disimpan" });
     
@@ -164,9 +167,11 @@ function getConfigValue(key) {
   return null;
 }
 
-function sendSummaryEmail(email, formData, pdfUrl, excelUrl) {
+function sendSummaryEmail(email, nomorRequest, formData, pdfUrl, excelUrl) {
   const subject = "Summary Permintaan Job Order: " + formData.posisi;
   let body = "Halo,\n\nBerikut adalah summary dari permintaan Job Order yang baru saja Anda submit:\n\n";
+  body += "Nomor Request: " + nomorRequest + "\n";
+  body += "Tanggal Request User: " + (formData.tanggalRequest || "-") + "\n";
   body += "Klien: " + (formData.klien || "-") + "\n";
   body += "Status: " + (formData.status || "-") + "\n";
   body += "Cabang: " + (formData.cabang || "-") + "\n";
