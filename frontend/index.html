@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permintaan Job Order (JO)</title>
+    <!-- Google Fonts for Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Select2 (Optional for better multiple selects) -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Global Theme Toggle -->
+    <button id="theme-toggle" class="global-theme-toggle" title="Toggle Dark Mode">
+        <svg id="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun hidden">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+
+    <div class="app-container">
+        <!-- Auth View -->
+        <div id="auth-view" class="view visible">
+            <div class="card auth-card">
+                <div class="logo-container">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                </div>
+                <h2>Portal Job Order</h2>
+                <p>Silakan masuk menggunakan akun perusahaan/Google Anda untuk melanjutkan.</p>
+                <div id="g_id_onload"
+                    data-client_id="556004279063-apavopu04dm6bdgoim9a1rhg660p9m9r.apps.googleusercontent.com"
+                    data-context="signin" data-ux_mode="popup" data-callback="handleCredentialResponse"
+                    data-auto_prompt="false">
+                </div>
+                <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+                    data-text="signin_with" data-size="large" data-logo_alignment="left">
+                </div>
+            </div>
+        </div>
+
+        <!-- Form View -->
+        <div id="form-view" class="view hidden">
+            <div class="header">
+                <div class="header-left">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                    <h1>Permintaan Job Order (JO)</h1>
+                </div>
+                <div class="header-right">
+                    <span id="user-email" class="user-badge"></span>
+                    <button id="btn-logout" class="btn-outline">Logout</button>
+                </div>
+            </div>
+
+            <div class="card form-card">
+                <form id="jo-form">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="klien">Klien <span class="required">*</span></label>
+                            <select id="klien" name="klien" required>
+                                <option value="" disabled selected>Pilih Klien</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Status JO <span class="required">*</span></label>
+                            <select id="status" name="status" required>
+                                <option value="" disabled selected>Pilih Status</option>
+                                <option value="Beli Putus">Beli Putus</option>
+                                <option value="Reguler">Reguler</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cabang">Cabang <span class="required">*</span></label>
+                            <select id="cabang" name="cabang" required>
+                                <option value="" disabled selected>Pilih Cabang</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="posisi">Posisi <span class="required">*</span></label>
+                            <input type="text" id="posisi" name="posisi" placeholder="Contoh: IT Support" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jumlahKebutuhan">Jumlah Kebutuhan <span class="required">*</span></label>
+                            <input type="number" id="jumlahKebutuhan" name="jumlahKebutuhan" min="1"
+                                placeholder="Contoh: 5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="osm">OSM <span class="required">*</span></label>
+                            <select id="osm" name="osm" required>
+                                <option value="" disabled selected>Pilih OSM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="deskripsiPekerjaan">Deskripsi Pekerjaan <span class="required">*</span></label>
+                        <textarea id="deskripsiPekerjaan" name="deskripsiPekerjaan" rows="4"
+                            placeholder="Jelaskan deskripsi pekerjaan secara detail..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="kompetensi">Kompetensi <span class="required">*</span></label>
+                        <select id="kompetensi" name="kompetensi" class="select2-multiple" multiple="multiple" required>
+                            <!-- Options dipopulate dari script -->
+                        </select>
+                        <small>Pilih 1 atau lebih kompetensi yang dibutuhkan.</small>
+                    </div>
+
+                    <div class="divider"></div>
+                    <h3>Dokumen Lampiran</h3>
+
+                    <div class="file-upload-row">
+                        <div class="file-upload-group">
+                            <label for="filePdf">Dokumen Permintaan User (PDF) <span class="required">*</span></label>
+                            <div class="file-drop-area">
+                                <span class="fake-btn">Pilih File PDF</span>
+                                <span class="file-msg">Tidak ada file yang dipilih</span>
+                                <input type="file" id="filePdf" name="filePdf" accept="application/pdf"
+                                    class="file-input" required>
+                            </div>
+                        </div>
+
+                        <div class="file-upload-group">
+                            <label for="fileExcel">Lampiran Remunerasi & Kualifikasi (Excel) <span
+                                    class="required">*</span></label>
+                            <div class="file-drop-area">
+                                <span class="fake-btn">Pilih File Excel</span>
+                                <span class="file-msg">Tidak ada file yang dipilih</span>
+                                <input type="file" id="fileExcel" name="fileExcel" accept=".xls,.xlsx"
+                                    class="file-input" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" id="btn-submit" class="btn-primary">
+                            <span>Submit Permintaan</span>
+                            <div class="spinner hidden"></div>
+                        </button>
+                    </div>
+                </form>
+
+                <div id="progress-box" class="progress-container hidden">
+                    <div class="progress-header">
+                        <span>Sedang Memproses...</span>
+                        <span id="progress-percentage">0%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div id="progress-bar" class="progress-bar"></div>
+                    </div>
+                    <div id="progress-text" class="progress-step-text">Memulai pengiriman...</div>
+                </div>
+
+                <div id="alert-box" class="alert hidden"></div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay for initial fetch -->
+        <div id="global-loader" class="global-loader hidden">
+            <div class="spinner-large"></div>
+            <p>Memuat Data...</p>
+        </div>
+    </div>
+
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- jQuery (Needed for Select2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
