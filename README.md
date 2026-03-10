@@ -29,10 +29,9 @@ Web application untuk pengajuan permintaan Job Order (JO) dari Project Coordinat
 JO/
 ├── backend/
 │   └── Code.gs        # Script Backend untuk Google Apps Script
-├── frontend/
-│   ├── app.js         # Logika fetch API, base64 convert, dan Google SSO
-│   ├── index.html     # Mark-up form UI
-│   └── style.css      # Styling Web App
+├── app.js             # Logika fetch API, base64 convert, dan Google SSO
+├── index.html         # Mark-up form UI
+├── style.css          # Styling Web App
 ├── SETUP.md           # Panduan Lengkap Instalasi & Setup Sistem (Wajib dibaca)
 └── README.md          # File ini
 ```

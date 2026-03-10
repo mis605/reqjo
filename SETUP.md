@@ -42,9 +42,9 @@ Karena frontend Anda berada di GitHub, Google memerlukan Client ID resmi untuk m
 10. Copy Client ID tersebut dan paste di `frontend/index.html` pada baris sekitar 25: `data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE"`.
 
 ## 4. Hosting ke GitHub Pages (Frontend)
-1. Push folder `frontend` (berisi `index.html`, `style.css`, `app.js`) ke repository GitHub Anda.
+1. Push file `index.html`, `style.css`, dan `app.js` (yang sekarang ada di *root* repository) ke repository GitHub Anda di branch `main`.
 2. Di repository GitHub, masuk ke **Settings > Pages**.
-3. Pilih branch `main` (atau `master`), lalu simpan.
+3. Pilih branch `main`, pada folder `/ (root)`, lalu simpan.
 4. GitHub akan memberikan URL publik (misal: `https://username.github.io/repo-name/`).
 5. Jangan lupa tambahkan URL publik tersebut di **Authorized JavaScript origins** di Google Cloud Console (Langkah 3.8).
 
