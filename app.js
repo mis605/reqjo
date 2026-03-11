@@ -243,6 +243,8 @@ async function handleFormSubmit(e) {
     // Use XMLHttpRequest for real upload progress
     const xhr = new XMLHttpRequest();
     xhr.open("POST", GAS_API_URL, true);
+    // Explicitly set text/plain to avoid CORS preflight (OPTIONS) request which GAS might reject
+    xhr.setRequestHeader("Content-Type", "text/plain;charset=utf-8");
 
     xhr.upload.onprogress = function (event) {
       if (event.lengthComputable) {
