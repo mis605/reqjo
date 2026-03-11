@@ -240,74 +240,44 @@ async function handleFormSubmit(e) {
 
     updateProgress(70, 'Mengunggah ke server backend...');
 
-    // Use XMLHttpRequest for real upload progress
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", GAS_API_URL, true);
+    // Send POST Request ke GAS (Pakai default mode dengan string body -> menghindar CORS preflight option di GAS)
+    const response = await fetch(GAS_API_URL, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
 
-    xhr.upload.onprogress = function (event) {
-      if (event.lengthComputable) {
-        // Map 50% to 100% of the upload phase to the 70%-95% range of our UI progress
-        const percentComplete = event.loaded / event.total;
-        const mappedPercent = 70 + Math.floor(percentComplete * 25);
-        updateProgress(mappedPercent, `Mengunggah... ${Math.round(percentComplete * 100)}%`);
-      }
-    };
+    updateProgress(90, 'Memproses respon dari server...');
 
-    xhr.onload = function () {
-      // Reset button state
-      $submitBtn.prop('disabled', false);
-      $submitBtn.find('span').text('Submit Permintaan');
-      $submitBtn.find('.spinner').addClass('hidden');
+    const result = await response.json();
 
-      if (xhr.status === 200 || xhr.status === 201) {
-        try {
-          const result = JSON.parse(xhr.responseText);
-          if (result.status === 'success') {
-            updateProgress(100, 'Data berhasil disimpan!');
-            showAlert('success', 'Permintaan Job Order berhasil disubmit dan tersimpan!');
-            // Reset Form // Check if still initialized correctly
-            $('#jo-form')[0].reset();
-            $('.select2-multiple').val(null).trigger('change');
-            $('.file-msg').text('Tidak ada file yang dipilih');
+    if (result.status === 'success') {
+      updateProgress(100, 'Data berhasil disimpan!');
+      showAlert('success', 'Permintaan Job Order berhasil disubmit dan tersimpan!');
+      // Reset Form
+      $('#jo-form')[0].reset();
+      $('.select2-multiple').val(null).trigger('change');
+      $('.file-msg').text('Tidak ada file yang dipilih');
 
-            // Sembunyikan progress bar setelah sukses dalam 3 detik
-            setTimeout(() => {
-              $('#progress-box').addClass('hidden');
-              updateProgress(0, '');
-            }, 3000);
-          } else {
-            updateProgress(100, 'Gagal menyimpan data.');
-            showAlert('error', 'Gagal memproses data: ' + result.message);
-          }
-        } catch (e) {
-          updateProgress(100, 'Kesalahan membaca respon.');
-          showAlert('error', 'Terjadi kesalahan sistem saat memproses respon server. Pastikan GAS mengembalikan JSON valid.');
-        }
-      } else {
-        updateProgress(100, 'Gagal mengirim data.');
-        showAlert('error', 'Gagal mengirim data ke server. Status: ' + xhr.status);
-      }
-    };
-
-    xhr.onerror = function () {
-      updateProgress(0, 'Terjadi kesalahan jaringan.');
-      showAlert('error', 'Terjadi kesalahan jaringan saat mengirim data. Pastikan koneksi stabil.');
-      $submitBtn.prop('disabled', false);
-      $submitBtn.find('span').text('Submit Permintaan');
-      $submitBtn.find('.spinner').addClass('hidden');
-    };
-
-    xhr.send(JSON.stringify(payload));
-
+      // Sembunyikan progress bar setelah sukses dalam 3 detik
+      setTimeout(() => {
+        $('#progress-box').addClass('hidden');
+      }, 3000);
+    } else {
+      updateProgress(100, 'Gagal menyimpan data.');
+      showAlert('error', 'Gagal memproses data: ' + result.message);
+    }
   } catch (err) {
     updateProgress(0, 'Terjadi kesalahan sistem.');
-    showAlert('error', 'Terjadi kesalahan sistem saat menyiapkan berkas. Pastikan file tidak melewati batas ukuran.');
+    showAlert('error', 'Terjadi kesalahan sistem saat mengirim data. Pastikan koneksi stabil dan file tidak lebih dari batas skrip.');
     console.error(err);
-    // Reset button state on immediate failure
+  } finally {
+    // Reset button state
     $submitBtn.prop('disabled', false);
     $submitBtn.find('span').text('Submit Permintaan');
     $submitBtn.find('.spinner').addClass('hidden');
   }
+
+
 }
 
 function showAlert(type, message) {
