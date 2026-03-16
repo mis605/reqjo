@@ -1,5 +1,5 @@
 // CONSTANTS
-const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwUxmmcWKFwPs1_X7K2mFM3Uow_W8wByDpILrcGjPX3LCtzA4fES_hlEcHEYHNUrxQO/exec"; // USER MUST REPLACE THIS DENGAN URL DEPLOYMENT APP SCRIPT
+const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwUxmmcWKFwPs1_X7K2mFM3Uow_W8wByDpILrcGjPX3LCtzA4fES_hlEcHEYHNUrxQO/exec";
 
 let currentUserToken = null;
 let currentUserEmail = null;
@@ -73,6 +73,10 @@ function showFormView() {
   $('#auth-view').addClass('hidden');
   $('#form-view').removeClass('hidden');
   $('#user-email').text(currentUserEmail);
+
+  // Set default Tanggal Request to today
+  const today = new Date().toISOString().split('T')[0];
+  $('#tanggalRequest').val(today);
 
   // Fetch master data to fill dropdowns
   fetchMasterData();
@@ -181,6 +185,10 @@ async function handleFormSubmit(e) {
   // Extract inputs
   const formDataObj = {
     tanggalRequest: $('#tanggalRequest').val(),
+    namaUser: $('#namaUser').val(),
+    statusKandidat: $('#statusKandidat').val(),
+    penempatan: $('#penempatan').val(),
+    alamatPenempatan: $('#alamatPenempatan').val(),
     klien: $('#klien').val(),
     status: $('#status').val(),
     cabang: $('#cabang').val(),
