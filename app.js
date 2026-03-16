@@ -74,8 +74,12 @@ function showFormView() {
   $('#form-view').removeClass('hidden');
   $('#user-email').text(currentUserEmail);
 
-  // Set default Tanggal Request to today
-  const today = new Date().toISOString().split('T')[0];
+  // Set default Tanggal Request to today (Local Time)
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const today = `${year}-${month}-${day}`;
   $('#tanggalRequest').val(today);
 
   // Fetch master data to fill dropdowns
