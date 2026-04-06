@@ -12,6 +12,10 @@ $(document).ready(function () {
     width: '100%'
   });
 
+  $('.select2-single').select2({
+    width: '100%'
+  });
+
   // Handle file input text changes
   $('.file-input').on('change', function () {
     let fileName = $(this).val().split('\\').pop();
