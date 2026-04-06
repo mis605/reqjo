@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Select2 (Optional for better multiple selects) -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="style.css?v=2.2">
+    <link rel="stylesheet" href="style.css?v=2.3">
 </head>
 
 <body>
@@ -164,18 +164,16 @@
                         </div>
 
                         <div class="file-upload-group">
-                            <label for="fileExcel">
-                                Lampiran Remunerasi & Kualifikasi (Excel) <span class="required">*</span>
-                                <small style="display: inline-block; margin-left: 8px;">
-                                    <a href="template/Format_Remunerasi.pdf" target="_blank" style="color: var(--primary-color); text-decoration: none;">Download Template PDF</a>
-                                </small>
-                            </label>
+                            <label for="fileExcel">Lampiran Remunerasi & Kualifikasi <span class="required">*</span></label>
                             <div class="file-drop-area">
-                                <span class="fake-btn">Pilih File Excel</span>
+                                <span class="fake-btn">Pilih File PDF</span>
                                 <span class="file-msg">Tidak ada file yang dipilih</span>
-                                <input type="file" id="fileExcel" name="fileExcel" accept=".xls,.xlsx"
+                                <input type="file" id="fileExcel" name="fileExcel" accept="application/pdf"
                                     class="file-input" required>
                             </div>
+                            <small style="display: block; margin-top: 8px;">
+                                <a href="template/Format_Remunerasi.pdf" target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">Download Template PDF</a>
+                            </small>
                         </div>
                     </div>
 
