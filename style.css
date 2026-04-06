@@ -419,22 +419,39 @@ button {
 }
 
 /* Select2 overrides */
-.select2-container--default .select2-selection--multiple {
-  background-color: var(--card-bg);
+.select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--single {
+  background-color: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  min-height: 42px;
+  min-height: 41px;
 }
 
-.select2-container--default.select2-container--focus .select2-selection--multiple {
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--focus .select2-selection--single {
   border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  outline: none;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: var(--text-main);
+  line-height: 39px;
+  padding-left: 0.875rem;
+  padding-right: 2rem;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 39px;
+  right: 0.5rem;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-  background-color: var(--bg-color);
+  background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 4px;
   color: var(--text-main);
+  margin-top: 6px;
 }
 
 .select2-dropdown {
