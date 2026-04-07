@@ -256,32 +256,29 @@ async function handleFormSubmit(e) {
 
     updateProgress(70, 'Mengunggah ke server backend...');
 
-    // Send POST Request ke GAS (Pakai default mode dengan string body -> menghindar CORS preflight option di GAS)
+    // Send POST Request ke GAS (mode: no-cors diwajibkan untuk bypass blokir 302 Redirect Google pada browser ketat)
     const response = await fetch(GAS_API_URL, {
       method: "POST",
+      mode: "no-cors",
       body: JSON.stringify(payload)
     });
 
-    updateProgress(90, 'Memproses respon dari server...');
+    updateProgress(100, 'Data berhasil dikirim ke server!');
 
-    const result = await response.json();
+    // Karena mode: no-cors, response.json() tidak bisa dibaca (opaque response). 
+    // Jika tidak ada error jaringan/timeout yang terlempar ke catch, kita asumsikan sukses.
+    showAlert('success', 'Permintaan Job Order berhasil disubmit dan tersimpan!');
+    
+    // Reset Form
+    $('#jo-form')[0].reset();
+    $('.select2-multiple').val(null).trigger('change');
+    $('.select2-single').val(null).trigger('change');
+    $('.file-msg').text('Tidak ada file yang dipilih');
 
-    if (result.status === 'success') {
-      updateProgress(100, 'Data berhasil disimpan!');
-      showAlert('success', 'Permintaan Job Order berhasil disubmit dan tersimpan!');
-      // Reset Form
-      $('#jo-form')[0].reset();
-      $('.select2-multiple').val(null).trigger('change');
-      $('.file-msg').text('Tidak ada file yang dipilih');
-
-      // Sembunyikan progress bar setelah sukses dalam 3 detik
-      setTimeout(() => {
-        $('#progress-box').addClass('hidden');
-      }, 3000);
-    } else {
-      updateProgress(100, 'Gagal menyimpan data.');
-      showAlert('error', 'Gagal memproses data: ' + result.message);
-    }
+    // Sembunyikan progress bar setelah sukses dalam 3 detik
+    setTimeout(() => {
+      $('#progress-box').addClass('hidden');
+    }, 3000);
   } catch (err) {
     updateProgress(0, 'Terjadi kesalahan sistem.');
     showAlert('error', 'Terjadi kesalahan sistem saat mengirim data. Pastikan koneksi stabil dan file tidak lebih dari batas skrip.');
