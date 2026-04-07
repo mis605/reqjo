@@ -192,12 +192,12 @@ function sendSummaryEmail(email, nomorRequest, formData, pdfUrl, excelUrl) {
   let htmlBody = body.replace(/\n/g, "<br>");
   
   if (pdfUrl) {
-    body += "Dokumen PDF: " + pdfUrl + "\n";
-    htmlBody += `Dokumen PDF: <a href="${pdfUrl}">Lihat Dokumen</a><br>`;
+    body += "Dok Permintaan User: " + pdfUrl + "\n";
+    htmlBody += `Dok Permintaan User: <a href="${pdfUrl}">Lihat Dokumen</a><br>`;
   }
   if (excelUrl) {
-    body += "Dokumen Excel: " + excelUrl + "\n";
-    htmlBody += `Dokumen Excel: <a href="${excelUrl}">Lihat Excel</a><br>`;
+    body += "Lampiran Remunerasi: " + excelUrl + "\n";
+    htmlBody += `Lampiran Remunerasi: <a href="${excelUrl}">Lihat Lampiran</a><br>`;
   }
   body += "\nTerima kasih.";
   htmlBody += "<br>Terima kasih.";
